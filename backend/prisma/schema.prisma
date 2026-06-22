@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Store {
+  id          String     @id @default(uuid())
+  name        String
+  domain      String     @unique
+  accessToken String?    // For Shopify API
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  
+  customers   Customer[]
+  orders      Order[]
+  campaigns   Campaign[]
+}
+
+model Customer {
+  id          String     @id @default(uuid())
+  storeId     String
+  store       Store      @relation(fields: [storeId], references: [id])
+  
+  email       String?
+  phone       String?
+  firstName   String?
+  lastName    String?
+  
+  totalSpent  Float      @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  orders      Order[]
+  messages    Message[]
+  
+  @@unique([storeId, email])
+  @@unique([storeId, phone])
+}
+
+model Order {
+  id          String     @id @default(uuid())
+  storeId     String
+  store       Store      @relation(fields: [storeId], references: [id])
+  customerId  String
+  customer    Customer   @relation(fields: [customerId], references: [id])
+  
+  shopifyId   String     @unique
+  totalPrice  Float
+  status      String     // e.g., "pending", "paid", "cancelled"
+  
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Message {
+  id          String     @id @default(uuid())
+  customerId  String
+  customer    Customer   @relation(fields: [customerId], references: [id])
+  
+  direction   String     // "inbound" (from customer) or "outbound" (from us/bot)
+  channel     String     // "whatsapp", "email", "sms"
+  content     String
+  status      String     // "sent", "delivered", "read", "failed"
+  
+  isAiGenerated Boolean  @default(false)
+  
+  createdAt   DateTime   @default(now())
+}
+
+model Campaign {
+  id          String     @id @default(uuid())
+  storeId     String
+  store       Store      @relation(fields: [storeId], references: [id])
+  
+  name        String
+  status      String     // "draft", "active", "completed"
+  type        String     // "abandoned_cart", "winback", "broadcast"
+  
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}

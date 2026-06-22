@@ -1,0 +1,80 @@
+.campaigns-page {
+  padding-bottom: 2rem;
+}
+
+.mb-6 { margin-bottom: 1.5rem; }
+
+.campaigns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.campaign-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.camp-header {
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge.active {
+  background: var(--success-green-glow);
+  color: var(--success-green);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.completed {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-tertiary);
+  border: 1px solid var(--glass-border);
+}
+
+.camp-stats {
+  display: flex;
+  padding: 1.25rem;
+  gap: 2rem;
+}
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.camp-actions {
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+}
